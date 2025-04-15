@@ -12,8 +12,8 @@ from gui.config_tab import ConfigTab
 from gui.mount_tab import MountTab
 from gui.transfer_tab import TransferTab
 from gui.tools_tab import ToolsTab
-from rclone_manager.core.config import ConfigManager
-from rclone_manager.core.system import find_rclone_path
+from core.config import ConfigManager
+from core.system import find_rclone_path
 
 
 class RcloneManagerApp:
@@ -37,16 +37,15 @@ class RcloneManagerApp:
             self.config["rclone_path"] = self.rclone_path
             self.config_manager.save_config(self.config)
 
+        # Variable compartida de estado para todas las pestañas (MOVER ESTA LÍNEA AQUÍ)
+        self.status_var = ttk.StringVar(value="Listo")
+
         # Crear componentes de la interfaz
         self.create_widgets()
-
-        # Variable compartida de estado para todas las pestañas
-        self.status_var = ttk.StringVar(value="Listo")
 
         # Iniciar carga de remotos y verificación de versión
         self.root.after(100, self.tabs["config"].check_version)
         self.root.after(300, self.tabs["config"].load_remotes)
-
     def setup_main_window(self):
         """Configura la ventana principal de la aplicación."""
         self.root.title("Rclone Manager")

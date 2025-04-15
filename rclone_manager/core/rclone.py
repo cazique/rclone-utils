@@ -567,5 +567,3 @@ class RcloneRunner:
             # Asegurar que se elimina del diccionario
             if process_id in self._running_processes:
                 del self._running_processes[process_id]
-            process = self._running_processes[process_id]
-            try:

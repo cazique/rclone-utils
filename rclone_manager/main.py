@@ -14,7 +14,7 @@ if str(current_dir) not in sys.path:
     sys.path.insert(0, str(current_dir))
 
 # Importar la aplicación GUI
-from rclone_manager.gui.app import RcloneManagerApp
+from gui.app import RcloneManagerApp
 
 def main():
     """Punto de entrada principal para la aplicación."""

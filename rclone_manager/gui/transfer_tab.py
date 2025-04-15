@@ -183,8 +183,10 @@ class TransferTab:
         )
         self.dest_remote_combo.pack(side=LEFT, padx=5, fill="x", expand=True)
 
-        ttk.Label(self.dest_remote_frame, text="Ruta en remoto:").pack(side=LEFT, padx=(15, 5))
+        # En el archivo transfer_tab.py, modifica setup_destination_panel()
+        # Añade un botón de exploración junto al campo de ruta remota
 
+        ttk.Label(self.dest_remote_frame, text="Ruta en remoto:").pack(side=LEFT, padx=(15, 5))
         self.dest_remote_path_var = ttk.StringVar()
         ttk.Entry(
             self.dest_remote_frame,
@@ -192,9 +194,34 @@ class TransferTab:
             width=20
         ).pack(side=LEFT, padx=5, fill="x", expand=True)
 
+        # Añadir este botón nuevo
+        ttk.Button(
+            self.dest_remote_frame,
+            text="Explorar",
+            command=self.browse_remote_dest
+        ).pack(side=LEFT, padx=5)
+
         # Colocar el frame inicial según valor predeterminado
         self.dest_remote_frame.grid(row=1, column=0, columnspan=4, sticky="ew", pady=5)
 
+    def browse_remote_dest(self):
+        """Abre un explorador para navegar por el remoto seleccionado."""
+        remote = self.dest_remote_var.get()
+        if not remote:
+            Messagebox.show_error(
+                title="Error",
+                message="Selecciona un remoto primero."
+            )
+            return
+
+        # Crear y configurar una ventana de exploración
+        explorer = RemoteExplorer(
+            self.app.root,
+            self.rclone_runner,
+            remote,
+            self.dest_remote_path_var
+        )
+        # La ventana actualizará dest_remote_path_var cuando el usuario seleccione una ubicación
     def setup_method_panel(self):
         """Configura el panel de método de transferencia."""
         method_frame = ttk.Labelframe(self.frame, text="Método de transferencia", padding=10)
